@@ -14,3 +14,12 @@ Simple To-Do SPA: create tasks (title + description), shows latest 5 tasks, mark
    - Open SSMS and run `db.sql`.
 2. Update `backend/.env` (or create `.env` in `backend`):
   
+
+  # . env example 
+PORT=4000
+DB_SERVER=localhost
+DB_PORT=49725
+DB_DATABASE=todo_db
+DB_USER=todo_user
+DB_PASSWORD=StrongPassword123!
+DB_ENCRYPT=false
