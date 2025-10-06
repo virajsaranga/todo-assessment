@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: todo_sql
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourStrong!Passw0rd", "-Q", "select 1"]
+      interval: 10s
+      retries: 10
+
+  backend:
+    build: ./backend
+    container_name: todo_backend
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "4000:4000"
+    environment:
+      DB_SERVER: db
+      DB_PORT: 1433
+      DB_DATABASE: todo_db
+      DB_USER: sa
+      DB_PASSWORD: YourStrong!Passw0rd
+      DB_ENCRYPT: "false"
+      PORT: 4000
+
+  frontend:
+    build: ./frontend
+    container_name: todo_frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+volumes:
+  mssql-data:
