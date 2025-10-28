@@ -7,6 +7,7 @@ test('renders input fields', () => {
   expect(screen.getByLabelText(/Title/i)).toBeInTheDocument();
 });
 
+// test allowas function
 test('allows typing in title field', async () => {
   render(<TaskForm />);
   const titleInput = screen.getByLabelText(/Title/i);
